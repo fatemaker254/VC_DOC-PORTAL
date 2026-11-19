@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vivekananda College | DOC Portal</title>
+<link rel="icon" href="/static/logo.png">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="crest"><img src="/static/logo.png" alt="Vivekananda College logo"></div><div><h1>Vivekananda College, Thakurpukur</h1><p>Government Sponsored · Affiliated to the University of Calcutta · NAAC A+</p></div></div>
+  <div class="topmeta">DOCUMENT MANAGEMENT PORTAL<br><b id="topYear">ACADEMIC YEAR</b></div>
+</header>
+<main>
+
+<section id="loginView" class="login-wrap" hidden>
+  <div class="login-card"><div class="eyebrow">SECURE MEMBER ACCESS</div><h2>Welcome to the DOC Portal</h2>
+    <p class="muted">Sign in with the email ID and password issued to your department / section by the portal administrator.</p>
+    <form id="loginForm">
+      <label for="email">Email address</label><input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <div class="password-wrap"><input id="password" type="password" autocomplete="current-password" required><button type="button" id="togglePassword" class="eye">Show</button></div>
+      <button class="btn primary wide" type="submit">Sign in</button><p id="loginError" class="error" role="alert"></p>
+    </form>
+    <div class="login-foot">For account or access issues, contact the portal administrator.</div></div>
+  <aside class="login-aside"><div class="eyebrow light">VIVEKANANDA COLLEGE</div><h2>One portal.<br>Department-wise records.</h2>
+    <p>Upload documents by academic year, department and committee. The Principal reviews every submission and comments directly on it.</p>
+    <ul><li>Section-wise document folders</li><li>Principal's remarks shown on your document</li><li>Daily submission reports</li></ul></aside>
+</section>
+
+<section id="pwView" class="login-wrap single" hidden>
+  <div class="login-card"><div class="eyebrow">ACCOUNT SECURITY</div><h2>Set a new password</h2>
+    <p class="muted">For security you must replace the temporary password before continuing. Use at least 8 characters with letters and numbers.</p>
+    <form id="pwForm">
+      <label for="pwCurrent">Temporary / current password</label><input id="pwCurrent" type="password" autocomplete="current-password" required>
+      <label for="pwNew">New password</label><input id="pwNew" type="password" autocomplete="new-password" required minlength="8">
+      <label for="pwNew2">Confirm new password</label><input id="pwNew2" type="password" autocomplete="new-password" required minlength="8">
+      <button class="btn primary wide" type="submit">Save password</button><p id="pwError" class="error" role="alert"></p>
+    </form></div>
+</section>
+
+<section id="appView" hidden>
+  <div class="welcome-row">
+    <div><div class="eyebrow" id="roleLabel">WORKSPACE</div><h2 id="welcomeTitle"></h2><p class="muted" id="welcomeSub"></p></div>
+    <div class="user-actions"><span id="userEmail" class="user-chip"></span><button id="pwBtn" class="btn outline">Change password</button><button id="logoutBtn" class="btn outline">Sign out</button></div>
+  </div>
+  <div class="tabs" id="mainTabs"><button data-tab="docs" class="active">Documents</button><button data-tab="notices">Principal's Documents <span class="badge" id="noticeBadge" hidden></span></button><button data-tab="reports">Reports</button><button data-tab="admin" id="adminTabBtn" hidden>Administration</button></div>
+
+  <div id="tab-docs">
+    <section class="stats" id="stats"></section>
+    <div class="dashboard-grid">
+      <aside class="sidebar panel"><h3>Portal sections</h3><p class="muted small" id="navHint"></p><nav id="sectionNav"></nav></aside>
+      <div class="content-col">
+        <section class="panel" id="uploadPanel" hidden>
+          <div class="section-head"><div><div class="eyebrow">UPLOAD TO</div><h3 id="uploadTarget"></h3></div></div>
+          <form id="uploadForm" class="upload-form"><div class="form-grid">
+            <div><label for="academicYear">Academic year *</label><select id="academicYear" required></select></div>
+            <div id="quarterWrap" hidden><label for="quarter">Quarter *</label><select id="quarter"><option value="">Choose quarter</option><option>Q1</option><option>Q2</option><option>Q3</option><option>Q4</option></select></div>
+            <div><label for="recordDate">Document / activity date *</label><input id="recordDate" type="date" required></div>
+            <div class="full"><label for="recordTitle">Document title / activity name *</label><input id="recordTitle" maxlength="160" required></div>
+            <div><label for="recordType">Record type *</label><select id="recordType" required></select></div>
+            <div><label for="submittedBy">Submitted by</label><input id="submittedBy" maxlength="100" placeholder="Faculty / member name"></div>
+            <div class="full"><label for="recordNotes">Description / remarks</label><textarea id="recordNotes" rows="3" maxlength="1200"></textarea></div>
+            <div class="full"><label>Attach files *</label>
+              <label class="dropzone" for="files"><b>＋ Choose files to upload</b><span id="dropHint"></span>
+              <input id="files" type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv"></label>
+              <div id="selectedFiles" class="selected-files"></div></div>
+          </div>
+          <div class="form-actions"><button class="btn primary" type="submit" id="uploadBtn">Submit document</button><button class="btn soft" type="button" id="clearUpload">Clear</button></div>
+          <p id="uploadError" class="error" role="alert"></p></form>
+        </section>
+        <section class="panel">
+          <div class="section-head"><div><div class="eyebrow" id="sectionPath">ALL SECTIONS</div><h3 id="sectionTitle">All documents</h3><p class="muted small" id="sectionDescription"></p></div></div>
+          <div class="filters">
+            <input id="fSearch" type="search" placeholder="Search title, remarks, name…">
+            <select id="fYear"></select>
+            <select id="fStatus"><option value="">Any status</option><option value="submitted">Pending review</option><option value="revision">Changes requested</option><option value="approved">Approved</option></select>
+            <input id="fDate" type="date" title="Uploaded on">
+            <label class="check"><input type="checkbox" id="fNew"> <span id="fNewLabel">New only</span></label>
+            <button class="btn soft" id="clearFilter">Reset</button>
+          </div>
+          <div id="recordsList" class="records-list"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-notices" hidden>
+    <section class="panel" id="noticeFormPanel" hidden>
+      <div class="section-head"><div><h3>Issue a document to departments</h3><p class="muted small">Only the sections you choose will be able to see it.</p></div></div>
+      <form id="noticeForm" class="upload-form"><div class="form-grid">
+        <div class="full"><label for="nTitle">Title *</label><input id="nTitle" maxlength="160" required></div>
+        <div><label for="nDate">Date *</label><input id="nDate" type="date" required></div>
+        <div><label for="nYear">Academic year *</label><select id="nYear" required></select></div>
+        <div class="full"><label for="nNotes">Message / instructions</label><textarea id="nNotes" rows="3" maxlength="1200"></textarea></div>
+        <div class="full"><label>Who can see this? *</label>
+          <label class="check"><input type="radio" name="aud" value="all" checked> All sections</label>
+          <label class="check"><input type="radio" name="aud" value="selected"> Only the sections I select</label>
+          <div id="nUnits" class="unit-pick" hidden></div>
+          <p class="small muted" id="nUnitsHint" hidden>Ticking a heading (e.g. Arts) includes every department under it.</p></div>
+        <div class="full"><label>Attach files *</label>
+          <label class="dropzone" for="nFiles"><b>＋ Choose files to upload</b><span>Images, PDF, Word, Excel, PowerPoint · up to 15 MB per file</span>
+          <input id="nFiles" type="file" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv"></label>
+          <div id="nSelected" class="selected-files"></div></div>
+      </div>
+      <div class="form-actions"><button class="btn primary" type="submit" id="nBtn">Issue document</button><button class="btn soft" type="button" id="nClear">Clear</button></div>
+      <p id="nError" class="error" role="alert"></p></form>
+    </section>
+    <section class="panel"><div class="section-head"><div><h3>Documents issued by the Principal</h3><p class="muted small" id="noticeSub"></p></div></div><div id="noticeList" class="records-list"></div></section>
+  </div>
+
+  <div id="tab-reports" hidden>
+    <section class="panel" id="reportControlsPanel">
+      <div class="section-head"><div><h3>Submission report</h3><p class="muted small">Choose a section and period, then download or print.</p></div></div>
+      <div class="report-grid">
+        <div><label for="rUnit">Section</label><select id="rUnit"></select></div>
+        <div><label for="rFrom">From</label><input type="date" id="rFrom"></div>
+        <div><label for="rTo">To</label><input type="date" id="rTo"></div>
+        <div><label for="rBasis">Date means</label><select id="rBasis"><option value="uploaded">Date uploaded</option><option value="activity">Document / activity date</option></select></div>
+        <div><label for="rStatus">Status</label><select id="rStatus"><option value="">Any</option><option value="submitted">Pending review</option><option value="revision">Changes requested</option><option value="approved">Approved</option></select></div>
+        <div class="end"><button class="btn dark" id="genReport">Generate</button></div>
+      </div>
+    </section>
+    <section class="panel" id="reportOut" hidden>
+      <div class="form-actions no-print"><button class="btn primary" id="dlHtml">Download HTML</button><button class="btn soft" id="dlCsv">Download CSV</button><button class="btn soft" id="printReport">Print / Save PDF</button></div>
+      <div id="reportPrint"></div>
+    </section>
+  </div>
+
+  <div id="tab-admin" hidden>
+    <div class="subtabs" id="adminTabs"><button data-sub="users" class="active">Users &amp; access</button><button data-sub="units">Sections</button><button data-sub="audit">Activity log</button><button data-sub="backup">Backup</button></div>
+    <section class="panel" id="sub-users"></section>
+    <section class="panel" id="sub-units" hidden></section>
+    <section class="panel" id="sub-audit" hidden></section>
+    <section class="panel" id="sub-backup" hidden>
+      <h3>Backup</h3><p class="muted">Downloads one ZIP containing the database and every uploaded file. Do this regularly and keep the ZIP somewhere safe (not only on the server).</p>
+      <a class="btn primary" href="/api/admin/backup">Download full backup</a>
+    </section>
+  </div>
+</section>
+</main>
+<footer>Vivekananda College, Thakurpukur · DOC Portal</footer>
+
+<div id="modal" class="modal" hidden><div class="modal-card"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
